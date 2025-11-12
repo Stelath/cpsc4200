@@ -20,6 +20,11 @@ Lower addresses
 
 ## Quick Start
 
+**Prerequisite:** If you haven't already, run the setup first:
+```bash
+cd ../Labsetup && ./setup.sh
+```
+
 ### 1. Start Server
 ```bash
 ./start_server.sh

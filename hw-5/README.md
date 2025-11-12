@@ -34,6 +34,33 @@ Task 7b: Non-Executable Stack Protection
 
 ---
 
+## ⚡ Quick Start
+
+**First time setup (required before any tasks):**
+
+```bash
+cd Labsetup
+./setup.sh
+```
+
+This script will:
+1. Compile all vulnerable server programs
+2. Build Docker container images
+3. Prepare the lab environment
+
+**After setup, start servers:**
+```bash
+docker compose up
+```
+
+Then begin with Task 1:
+```bash
+cd ../task1
+./test_shellcode.sh
+```
+
+---
+
 ## Environment Setup
 
 ### Prerequisites
@@ -59,28 +86,29 @@ cat /proc/sys/kernel/randomize_va_space
 # Should output: 0
 ```
 
-#### 2. Build Server Binaries
+#### 2. Run Setup Script (Recommended)
 
-Navigate to the server code directory and compile:
+```bash
+cd Labsetup
+./setup.sh
+```
 
+Or manually:
+
+**2a. Build Server Binaries:**
 ```bash
 cd Labsetup/server-code
 make
 make install
 ```
 
-This compiles four vulnerable programs (stack-L1 through stack-L4) with security protections disabled.
-
-#### 3. Build Docker Containers
-
-Return to Labsetup directory and build containers:
-
+**2b. Build Docker Containers:**
 ```bash
 cd ..
 docker compose build
 ```
 
-#### 4. Start All Servers
+#### 3. Start Servers
 
 ```bash
 docker compose up
@@ -290,6 +318,27 @@ sudo /sbin/sysctl -w kernel.randomize_va_space=2
 ## Troubleshooting
 
 ### Common Issues
+
+**Problem: Docker build fails with "stack-L1: not found" or similar**
+```
+ERROR [bof-server-L1 3/4] COPY stack-L1  /bof/stack
+"/stack-L1": not found
+```
+
+**Cause:** Server binaries haven't been compiled yet.
+
+**Solution:**
+```bash
+cd Labsetup
+./setup.sh
+```
+
+Or manually:
+```bash
+cd Labsetup/server-code
+make && make install
+cd .. && docker compose build
+```
 
 **Problem: "Connection refused" when using nc**
 ```bash
