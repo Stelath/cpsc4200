@@ -1,7 +1,7 @@
 # Task 7b: Non-Executable Stack Protection
 # Compile call_shellcode WITHOUT -z execstack (NX enabled)
 
-SEED = ../../Labsetup/shellcode
+SEED = ../Labsetup/shellcode
 
 all: call_shellcode_nx
 

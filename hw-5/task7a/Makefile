@@ -1,7 +1,7 @@
 # Task 7a: StackGuard Protection
 # Compile stack.c WITH stack protection (remove -fno-stack-protector)
 
-SEED = ../../Labsetup/server-code
+SEED = ../Labsetup/server-code
 
 all: stack-L1-protected
 

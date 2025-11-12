@@ -1,7 +1,7 @@
 # Task 1: Shellcode Familiarization
 
 ## Objective
-Modify ARM64 shellcode to execute custom commands (e.g., delete a file).
+Modify ARM64 shellcode to execute custom commands (delete a file) and understand how shellcode works.
 
 ## Quick Start
 ```bash
@@ -9,52 +9,88 @@ cd task1
 ./test_shellcode.sh
 ```
 
-## Modify Shellcode Command
+This will:
+1. Create a test file
+2. Generate shellcode from `shellcode_delete.py`
+3. Compile `call_shellcode` test harness
+4. Execute the shellcode
+5. Verify the file was deleted
 
-Edit `../Labsetup/shellcode/shellcode_64.py` line 23:
+## Modifying Shellcode
 
-**Original:**
-```python
-"/bin/ls -l; echo Hello 64; /bin/tail -n 4 /etc/passwd          *"
-```
+The shellcode is in `shellcode_delete.py`. To change the command:
 
-**Example modification (delete file):**
+**Edit line 15:**
 ```python
 "/bin/rm /tmp/testfile_task1.txt; echo 'File deleted!'         *"
 ```
 
-**Critical:** Keep the `*` marker at the end and maintain **exact same length** (adjust spaces).
+**Rules:**
+- Keep the `*` marker at the end
+- Maintain **exact same length** (add/remove spaces as needed)
+- Current length: 67 characters including the `*`
 
-## How It Works
+**Examples:**
+
+Delete different file:
+```python
+"/bin/rm /tmp/myfile.txt; echo 'Deleted myfile'                *"
+```
+
+Create a file:
+```python
+"/bin/bash -c 'echo PWNED > /tmp/pwned.txt'; echo 'Created!'   *"
+```
+
+Display info:
+```python
+"/bin/whoami; /bin/id; echo 'System info displayed'            *"
+```
+
+## How Shellcode Works
 
 The shellcode executes:
 ```c
 execve("/bin/bash", ["/bin/bash", "-c", "your_command"], NULL);
 ```
 
-Using `/bin/bash -c` allows running any shell command.
+### Components:
+1. **Binary machine code**: ARM64 instructions to set up execve syscall
+2. **Command strings**: `/bin/bash`, `-c`, and your command
+3. **Placeholders**: Replaced with actual string addresses at runtime
+4. **Position markers (`*`)**: Replaced with null bytes during execution
 
-## Alternative: Pre-Modified Version
+## Manual Build
 
 ```bash
+# Generate shellcode
 ./shellcode_delete.py
-cp codefile_64 ../Labsetup/shellcode/
-cd ../Labsetup/shellcode && ./a64.out
+
+# Compile test harness
+make
+
+# Run
+./call_shellcode
 ```
 
-## Key Points
-- **Position markers (`*`)**: Replaced with null bytes at runtime
-- **Length constraint**: Binary code has hardcoded offsets
-- **No null bytes**: Can't include `\x00` in command strings (for later tasks)
+## Alternative: Test Original Shellcode
+
+To test the unmodified shellcode from Labsetup:
+```bash
+cd ../Labsetup/shellcode
+./shellcode_64.py
+make
+./a64.out
+```
 
 ## Lab Report Requirements
-- Modified shellcode code
-- Screenshot of execution
+- Modified `shellcode_delete.py` code
+- Screenshot of execution showing file deletion
 - Explanation of command chosen
-- Length verification method
+- Discussion of how you maintained string length
 
 ## Cleanup
 ```bash
+make clean
 rm -f /tmp/testfile_task1.txt
-cd ../Labsetup/shellcode && make clean
 ```

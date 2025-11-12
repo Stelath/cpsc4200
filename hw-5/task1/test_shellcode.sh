@@ -1,17 +1,30 @@
 #!/bin/bash
 set -e
 
-echo "Creating test file..."
-echo "This file will be deleted" > /tmp/testfile_task1.txt
+echo "Task 1: Testing Modified Shellcode"
+echo "==================================="
+echo ""
 
-cd ../Labsetup/shellcode
-./shellcode_64.py
-make -s
+# Create test file
+echo "Creating test file: /tmp/testfile_task1.txt"
+echo "This file will be deleted by shellcode" > /tmp/testfile_task1.txt
+ls -l /tmp/testfile_task1.txt
+echo ""
+
+# Build shellcode and test harness
+echo "Building..."
+make
+echo ""
+
+# Execute shellcode
 echo "Executing shellcode..."
-./a64.out
+./call_shellcode
+echo ""
 
-if [ ! -f /tmp/testfile_task1.txt ]; then
-    echo "✓ Success: Test file deleted"
+# Check result
+if [ -f /tmp/testfile_task1.txt ]; then
+    echo "⚠ Test file still exists - shellcode may not have worked"
+    ls -l /tmp/testfile_task1.txt
 else
-    echo "⚠ Warning: Test file still exists"
+    echo "✓ Success! Test file was deleted by shellcode"
 fi
