@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if ! docker ps &>/dev/null; then
+    echo "Docker permission denied. Run: sudo usermod -aG docker \$USER && newgrp docker"
+    exit 1
+fi
+
 cd ../Labsetup
-echo "Starting Level-1 server (10.9.0.5:9090)..."
 docker compose up bof-server-L1

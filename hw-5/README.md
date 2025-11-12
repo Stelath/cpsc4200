@@ -40,13 +40,11 @@ Task 7b: Non-Executable Stack Protection
 
 ```bash
 cd Labsetup
+chmod +x setup.sh
 ./setup.sh
 ```
 
-This script will:
-1. Compile all vulnerable server programs
-2. Build Docker container images
-3. Prepare the lab environment
+This script will compile the server programs and build Docker images.
 
 **After setup, start servers:**
 ```bash
@@ -90,6 +88,7 @@ cat /proc/sys/kernel/randomize_va_space
 
 ```bash
 cd Labsetup
+chmod +x setup.sh
 ./setup.sh
 ```
 
@@ -338,6 +337,33 @@ Or manually:
 cd Labsetup/server-code
 make && make install
 cd .. && docker compose build
+```
+
+**Problem: Docker permission denied**
+```
+permission denied while trying to connect to the Docker daemon socket
+```
+
+**Cause:** User doesn't have Docker permissions.
+
+**Solution (Recommended):**
+```bash
+# Add user to docker group
+sudo usermod -aG docker $USER
+
+# Apply group membership (choose one):
+newgrp docker              # Apply in current terminal
+# OR logout and login again
+```
+
+**Alternative:** Use sudo for all docker commands:
+```bash
+sudo docker compose up
+```
+
+**Verify it worked:**
+```bash
+docker ps  # Should work without sudo
 ```
 
 **Problem: "Connection refused" when using nc**

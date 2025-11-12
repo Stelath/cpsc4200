@@ -22,7 +22,9 @@ Lower addresses
 
 **Prerequisite:** If you haven't already, run the setup first:
 ```bash
-cd ../Labsetup && ./setup.sh
+cd ../Labsetup
+chmod +x setup.sh  # First time only
+./setup.sh
 ```
 
 ### 1. Start Server
@@ -91,6 +93,7 @@ Then send exploit to get root shell.
 - For reverse shell: connection received on listener
 
 ## Troubleshooting
+- **Docker permission denied**: Add user to docker group with `sudo usermod -aG docker $USER && newgrp docker`
 - **Server crashes**: Return address pointing to invalid memory, try `buffer_addr + 100`
 - **"Returned Properly" appears**: Return address not overwritten, check offset calculations
 - **Addresses change**: Don't restart container between attempts

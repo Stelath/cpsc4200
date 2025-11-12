@@ -1,5 +1,3 @@
-version: "3"
-  
 services:
     bof-server-L1:
         build:
