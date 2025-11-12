@@ -22,7 +22,7 @@ sudo /sbin/sysctl -w kernel.randomize_va_space=2
 ### 2. Restart Containers
 ```bash
 cd ../Labsetup
-docker-compose restart
+docker compose restart
 ```
 
 ### 3. Test Address Randomization
@@ -80,7 +80,7 @@ ASLR can be defeated by:
 Re-disable ASLR for remaining tasks:
 ```bash
 sudo /sbin/sysctl -w kernel.randomize_va_space=0
-docker-compose restart
+docker compose restart
 ```
 
 ## Lab Report Requirements

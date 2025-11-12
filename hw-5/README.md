@@ -77,18 +77,18 @@ Return to Labsetup directory and build containers:
 
 ```bash
 cd ..
-docker-compose build
+docker compose build
 ```
 
 #### 4. Start All Servers
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 Or start individual servers:
 ```bash
-docker-compose up bof-server-L1  # Level 1 only
+docker compose up bof-server-L1  # Level 1 only
 ```
 
 ---
@@ -200,7 +200,7 @@ hw-5/
    ```bash
    ./start_server.sh
    # OR from Labsetup/:
-   docker-compose up bof-server-L1
+   docker compose up bof-server-L1
    ```
 
 4. **Develop exploit:**
@@ -245,12 +245,12 @@ sudo /sbin/sysctl -w kernel.randomize_va_space=2
 **Stop all containers:**
 ```bash
 cd Labsetup/
-docker-compose down
+docker compose down
 ```
 
 **Remove all lab containers:**
 ```bash
-docker-compose down -v
+docker compose down -v
 docker system prune -f
 ```
 
@@ -296,7 +296,7 @@ sudo /sbin/sysctl -w kernel.randomize_va_space=2
 # Solution: Check if server is running
 docker ps | grep bof-server
 # If not running:
-cd Labsetup && docker-compose up bof-server-L1
+cd Labsetup && docker compose up bof-server-L1
 ```
 
 **Problem: "Cannot find badfile"**
@@ -309,9 +309,9 @@ ls -l badfile  # Verify it exists
 **Problem: Server crashes immediately**
 ```bash
 # Solution: Check docker logs
-docker-compose logs bof-server-L1
+docker compose logs bof-server-L1
 # Restart container
-docker-compose restart bof-server-L1
+docker compose restart bof-server-L1
 ```
 
 **Problem: Addresses change between attempts**
@@ -321,12 +321,12 @@ cat /proc/sys/kernel/randomize_va_space
 # Should be 0, if not:
 sudo /sbin/sysctl -w kernel.randomize_va_space=0
 # Restart containers
-docker-compose restart
+docker compose restart
 ```
 
 **Problem: Exploit works locally but not on server**
 - Check that you're using correct IP address (10.9.0.X)
-- Verify server is listening: `docker-compose logs bof-server-LX`
+- Verify server is listening: `docker compose logs bof-server-LX`
 - Ensure payload file is up-to-date: `ls -l badfile`
 - Check for network issues: `ping 10.9.0.X`
 

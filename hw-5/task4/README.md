@@ -36,7 +36,7 @@ If the simple approach doesn't work, place shellcode and NOP sled entirely befor
 
 ### 1. Start Server
 ```bash
-cd ../Labsetup && docker-compose up bof-server-L3
+cd ../Labsetup && docker compose up bof-server-L3
 ```
 
 ### 2. Get Addresses

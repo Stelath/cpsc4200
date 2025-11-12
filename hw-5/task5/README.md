@@ -43,7 +43,7 @@ When `bof()` is called:
 
 ### 1. Start Server
 ```bash
-cd ../Labsetup && docker-compose up bof-server-L4
+cd ../Labsetup && docker compose up bof-server-L4
 ```
 
 ### 2. Get Addresses

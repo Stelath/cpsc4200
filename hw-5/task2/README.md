@@ -23,7 +23,7 @@ Lower addresses
 ### 1. Start Server
 ```bash
 ./start_server.sh
-# Or: cd ../Labsetup && docker-compose up bof-server-L1
+# Or: cd ../Labsetup && docker compose up bof-server-L1
 ```
 
 ### 2. Get Addresses

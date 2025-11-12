@@ -12,7 +12,7 @@ if [ "$current" -eq 0 ]; then
     echo ""
     echo "To enable ASLR, run:"
     echo "  sudo /sbin/sysctl -w kernel.randomize_va_space=2"
-    echo "  cd ../Labsetup && docker-compose restart"
+    echo "  cd ../Labsetup && docker compose restart"
     echo ""
 elif [ "$current" -eq 2 ]; then
     echo "  (2 = Full randomization)"
@@ -53,4 +53,4 @@ echo ""
 
 echo "To disable ASLR:"
 echo "  sudo /sbin/sysctl -w kernel.randomize_va_space=0"
-echo "  cd ../Labsetup && docker-compose restart"
+echo "  cd ../Labsetup && docker compose restart"

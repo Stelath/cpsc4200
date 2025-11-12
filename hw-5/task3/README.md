@@ -17,7 +17,7 @@ Without the frame pointer, you don't know exactly where the return address is st
 
 ### 1. Start Server
 ```bash
-cd ../Labsetup && docker-compose up bof-server-L2
+cd ../Labsetup && docker compose up bof-server-L2
 ```
 
 ### 2. Get Buffer Address
