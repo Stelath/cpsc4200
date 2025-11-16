@@ -12,11 +12,15 @@ Exploit buffer overflow on Level-1 server to execute shellcode with root privile
 ## ARM64 Stack Layout
 ```
 Higher addresses
-  [Buffer]           ← 0x...f0a0 (example)
-  [Saved FP (x29)]   ← 0x...f080 (example)
-  [Saved LR (x30)]   ← FP + 8 (return address)
+  [foo's Saved FP]     ← 0x...f110 (parent function)
+  [foo's Saved LR]     ← 0x...f118 ← WE OVERFLOW TO HERE!
+  ↑ Overflow goes UP
+  [Buffer]             ← 0x...f0a0 (our buffer in bof)
+  [bof's Saved FP]     ← 0x...f080 (can't reach this)
+  [bof's Saved LR]     ← 0x...f088 (can't reach this)
 Lower addresses
 ```
+**Key**: Buffer overflows FORWARD (upward) to overwrite foo's return address!
 
 ## Quick Start
 
@@ -37,14 +41,16 @@ chmod +x setup.sh  # First time only
 ```bash
 echo hello | nc 10.9.0.5 9090
 ```
-Note the output values for buffer address and frame pointer.
+Note the output values. **Important**: Use **foo's** frame pointer, not bof's!
 
 ### 3. Update Exploit
-Edit `exploit.py` lines 41-42 with values from server output:
+Edit `exploit.py` lines 42-43 with values from server output:
 ```python
-buffer_addr = 0x0000fffffffff0a0      # ← Your value here
-frame_pointer = 0x0000fffffffff080    # ← Your value here
+buffer_addr = 0x0000fffffffff0a0       # ← Your value here
+foo_frame_pointer = 0x0000fffffffff110 # ← Use "Frame pointer inside foo()"
 ```
+
+**Key**: In ARM64, you overflow FORWARD to overwrite foo's return address, not bof's!
 
 ### 4. Generate and Send Payload
 ```bash
